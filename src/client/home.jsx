@@ -25,7 +25,7 @@ export class Home extends React.Component {
                 {loggedIn ? (
                     <div>
                         <div id="status_update">
-                            <p>Sup my dude?</p>
+                            <p>Sup {user.displayName}</p>
                             <input type="text"></input>
                             <div className={"btn"}>Post</div>
                         </div>

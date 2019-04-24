@@ -1,9 +1,9 @@
 import React from 'react';
-import {withRouter} from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
-export class SignUp extends React.Component{
+export class SignUp extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -17,41 +17,45 @@ export class SignUp extends React.Component{
         };
     }
 
+    handleChanges = (event) => {
+        this.setState
+    }
+
     onUserIdChange = (event) => {
-        this.setState({userId: event.target.value, errorMsg: null});
+        this.setState({ userId: event.target.value, errorMsg: null });
     };
 
     onPasswordChange = (event) => {
-        this.setState({password: event.target.value, errorMsg: null});
+        this.setState({ password: event.target.value, errorMsg: null });
     };
 
     onConfirmChange = (event) => {
-        this.setState({confirm: event.target.value, errorMsg: null});
+        this.setState({ confirm: event.target.value, errorMsg: null });
     };
     onDisplayNameChange = (event) => {
-        this.setState({displayName: event.target.value, errorMsg: null});
+        this.setState({ displayName: event.target.value, errorMsg: null });
     };
 
     onBirthdayChange = (event) => {
-        this.setState({birthday: event.target.value, errorMsg: null});
+        this.setState({ birthday: event.target.value, errorMsg: null });
     };
 
     onLocationChange = (event) => {
-        this.setState({location: event.target.value, errorMsg: null});
+        this.setState({ location: event.target.value, errorMsg: null });
     };
 
     doSignUp = async () => {
 
-        const {userId, displayName, birthday, location, password, confirm} = this.state;
+        const { userId, displayName, birthday, location, password, confirm } = this.state;
 
-        if(confirm !== password){
-            this.setState({errorMsg: "Passwords do not match"});
+        if (confirm !== password) {
+            this.setState({ errorMsg: "Passwords do not match" });
             return;
         }
 
         const url = "/api/signup";
 
-        const payload = {userId: userId, displayName: displayName, birthday: birthday, location: location, password: password};
+        const payload = { userId: userId, displayName: displayName, birthday: birthday, location: location, password: password };
 
         let response;
 
@@ -64,94 +68,97 @@ export class SignUp extends React.Component{
                 body: JSON.stringify(payload)
             });
         } catch (err) {
-            this.setState({errorMsg: "Failed to connect to server: "+ err});
+            this.setState({ errorMsg: "Failed to connect to server: " + err });
             return;
         }
 
 
-        if(response.status === 400){
-            this.setState({errorMsg: "Invalid userId/password"});
+        if (response.status === 400) {
+            this.setState({ errorMsg: "Invalid userId/password" });
             return;
         }
 
-        if(response.status !== 201){
-            this.setState({errorMsg: "Error when connecting to server: status code "+ response.status});
+        if (response.status !== 201) {
+            this.setState({ errorMsg: "Error when connecting to server: status code " + response.status });
             return;
         }
 
-        this.setState({errorMsg: null});
+        this.setState({ errorMsg: null });
         await this.props.fetchAndUpdateUserInfo();
+        event.preventDefault();
         this.props.history.push('/');
     };
 
-    render(){
+    render() {
 
         let error = <div></div>;
-        if(this.state.errorMsg !== null){
+        if (this.state.errorMsg !== null) {
             error = <div className="errorMsg"><p>{this.state.errorMsg}</p></div>
         }
 
         let confirmMsg = "Ok";
-        if(this.state.confirm !== this.state.password){
-           confirmMsg = "Not matching";
+        if (this.state.confirm !== this.state.password) {
+            confirmMsg = "Not matching";
         }
 
-        return(
+        return (
             <div>
-                <div>
-                    <p>User Id:</p>
-                    <input type="text"
-                           value={this.state.userId}
-                           onChange={this.onUserIdChange}
-                           id="userIdInput"
-                    />
-                </div>
-                <div>
-                    <p>Display Name:</p>
-                    <input type="text"
-                           value={this.state.displayName}
-                           onChange={this.onDisplayNameChange}
-                           id="displayNameInput"
-                    />
-                </div>
-                <div>
-                    <p>Birthday:</p>
-                    <input type="text"
-                           value={this.state.birthday}
-                           onChange={this.onBirthdayChange}
-                           id="birthdayInput"
-                    />
-                </div>
-                <div>
-                    <p>Location:</p>
-                    <input type="text"
-                           value={this.state.location}
-                           onChange={this.onLocationChange}
-                           id="locationInput"
-                    />
-                </div>
-                <div>
-                    <p>Password:</p>
-                    <input type="password"
-                           value={this.state.password}
-                           onChange={this.onPasswordChange}
-                           id="passwordInput"
-                    />
-                </div>
-                <div>
-                    <p>Confirm:</p>
-                    <input type="password"
-                           value={this.state.confirm}
-                           onChange={this.onConfirmChange}
-                           id="confirmInput"
-                    />
-                    <div>{confirmMsg}</div>
-                </div>
+                <form onSubmit={this.doSignUp}>
+                    <label>
+                        <p>User Id:</p>
+                        <input type="text"
+                            value={this.state.userId}
+                            onChange={this.onUserIdChange}
+                            id="userIdInput"
+                        />
+                    </label>
+                    <label>
+                        <p>Display Name:</p>
+                        <input type="text"
+                            value={this.state.displayName}
+                            onChange={this.onDisplayNameChange}
+                            id="displayNameInput"
+                        />
+                    </label>
+                    <label>
+                        <p>Birthday:</p>
+                        <input type="text"
+                            value={this.state.birthday}
+                            onChange={this.onBirthdayChange}
+                            id="birthdayInput"
+                        />
+                    </label>
+                    <label>
+                        <p>Location:</p>
+                        <input type="text"
+                            value={this.state.location}
+                            onChange={this.onLocationChange}
+                            id="locationInput"
+                        />
+                    </label>
+                    <label>
+                        <p>Password:</p>
+                        <input type="password"
+                            value={this.state.password}
+                            onChange={this.onPasswordChange}
+                            id="passwordInput"
+                        />
+                    </label>
+                    <label>
+                        <p>Confirm:</p>
+                        <input type="password"
+                            value={this.state.confirm}
+                            onChange={this.onConfirmChange}
+                            id="confirmInput"
+                        />
+                        <div>{confirmMsg}</div>
+                    </label>
+                    <input type="submit" value="Submit" />
+                    {error}
 
-                {error}
-
-                <div className="btn" onClick={this.doSignUp} id="signUpBtn">Sign Up</div>
+                </form>
             </div>
+
         );
     }
 }

@@ -1,8 +1,8 @@
-import { fakeUsers } from "./fakeUsers"
+import { users } from "./Users"
 
 let timeline = new Map()
 
-fakeUsers.forEach(user => {
+users.forEach(user => {
     timeline.add(user.id,
         {
             

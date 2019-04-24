@@ -1,17 +1,11 @@
 import React from 'react'
+import { Link, withRouter } from 'react-router-dom'
 
 
-class Profile extends React.Component {
+export class Profile extends React.Component {
     constructor(props) {
         super(props)
 
-        this.state = {
-            displayName: this.props.displayName,
-            birthday: this.props.birthday,
-            location: this.props.location,
-            friends: this.props.friends,
-            userPosts: this.props.userPosts
-        }
     }
 
     componentDidMount() {
@@ -21,10 +15,13 @@ class Profile extends React.Component {
     }
 
     render() {
-        <div>
-            <h1>Welcome to the home of {state.displayName}</h1>
+        const user = this.props.user;
+        return (
+            <div>
+                <h1>Welcome to the home of {user.displayName}</h1>
             </div>
-
+        )
     }
 }
 
+export default withRouter(Profile);

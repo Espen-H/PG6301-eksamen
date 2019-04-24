@@ -4,6 +4,7 @@ import {BrowserRouter, Switch, Route} from 'react-router-dom';
 
 import {Home} from "./home";
 import Login from "./login";
+import Profile from "./profile";
 import SignUp from "./signup";
 import HeaderBar from "./headerbar";
 
@@ -130,7 +131,6 @@ class App extends React.Component {
                         <Route exact path="/profile"
                                render={props => <Profile {...props}
                                                        user={this.state.user}
-                                                       updateLoggedInUser={this.updateLoggedInUser}
                                                        fetchAndUpdateUserInfo={this.fetchAndUpdateUserInfo}
                                />}/>
                         <Route exact path="/login"
