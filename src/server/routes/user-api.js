@@ -10,10 +10,15 @@ router.get('/timeline', function (req, res) {
         res.status(401).send();
         return;
     }
+
+    Users.forEach(userPost => {
+        
+    });
+
 });
 
 router.post('/:userId/userpost', function (req, res) {
-    
+
     const created = Users.createUserPost(req.body.userId, req.body.displayName, req.body.post, req.body.time);
 
     if (!created) {
@@ -21,15 +26,15 @@ router.post('/:userId/userpost', function (req, res) {
         return;
     }
 
-   res.status(201).send()
+    res.status(201).send()
 })
 
 router.put('/:userId/update', function (req, res) {
 
     let user = Users.getUser(req.params.userId)
 
-    if(user == null || user == undefined){
-        res.status(404).send()
+    if (user == null || user == undefined) {
+        res.status(400).send()
         return;
     }
 
@@ -37,6 +42,7 @@ router.put('/:userId/update', function (req, res) {
     user.birthday = req.body.birthday;
     user.location = req.body.location;
 
+    res.send(204)
 })
 
 

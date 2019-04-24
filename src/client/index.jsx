@@ -1,12 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {BrowserRouter, Switch, Route} from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import {Home} from "./home";
+import { Home } from "./home";
 import Login from "./login";
 import Profile from "./profile";
 import SignUp from "./signup";
 import HeaderBar from "./headerbar";
+import Timeline from "./timeline";
 
 class App extends React.Component {
 
@@ -43,22 +44,22 @@ class App extends React.Component {
 
 
         let protocol = "ws:";
-        if(window.location.protocol.toLowerCase() === "https:"){
+        if (window.location.protocol.toLowerCase() === "https:") {
             protocol = "wss:";
         }
 
         this.socket = new WebSocket(protocol + "//" + window.location.host);
 
-        this.socket.onmessage = ( event => {
+        this.socket.onmessage = (event => {
 
             const dto = JSON.parse(event.data);
 
             if (dto === null || dto === undefined || !dto.userCount) {
-                this.setState({userCount: "ERROR"});
+                this.setState({ userCount: "ERROR" });
                 return;
             }
 
-            this.setState({userCount: dto.userCount});
+            this.setState({ userCount: dto.userCount });
         });
     }
 
@@ -77,13 +78,13 @@ class App extends React.Component {
                 method: "get"
             });
         } catch (err) {
-            this.setState({errorMsg: "Failed to connect to server: " + err});
+            this.setState({ errorMsg: "Failed to connect to server: " + err });
             return;
         }
 
         if (response.status === 401) {
-            //that is ok
             this.updateLoggedInUser(null);
+            history.pushState("","/")
             return;
         }
 
@@ -96,7 +97,7 @@ class App extends React.Component {
     };
 
     updateLoggedInUser = (user) => {
-        this.setState({user: user});
+        this.setState({ user: user });
     };
 
 
@@ -120,31 +121,33 @@ class App extends React.Component {
             to use the attribute "render".
          */
 
-        const user = this.state.user ? this.state.user: null;
+        const user = this.state.user ? this.state.user : null;
 
         return (
             <BrowserRouter>
                 <div>
                     <HeaderBar user={user}
-                               updateLoggedInUser={this.updateLoggedInUser}/>
+                        updateLoggedInUser={this.updateLoggedInUser} />
+                    <Timeline user={user}
+                        updateLoggedInUser={this.updateLoggedInUser} />
                     <Switch>
                         <Route exact path="/profile"
-                               render={props => <Profile {...props}
-                                                       user={this.state.user}
-                                                       fetchAndUpdateUserInfo={this.fetchAndUpdateUserInfo}
-                               />}/>
+                            render={props => <Profile {...props}
+                                user={this.state.user}
+                                fetchAndUpdateUserInfo={this.fetchAndUpdateUserInfo}
+                            />} />
                         <Route exact path="/login"
-                               render={props => <Login {...props}
-                                                       fetchAndUpdateUserInfo={this.fetchAndUpdateUserInfo}/>}/>
+                            render={props => <Login {...props}
+                                fetchAndUpdateUserInfo={this.fetchAndUpdateUserInfo} />} />
                         <Route exact path="/signup"
-                               render={props => <SignUp {...props}
-                                                        fetchAndUpdateUserInfo={this.fetchAndUpdateUserInfo}/>}/>
+                            render={props => <SignUp {...props}
+                                fetchAndUpdateUserInfo={this.fetchAndUpdateUserInfo} />} />
                         <Route exact path="/"
-                               render={props => <Home {...props}
-                                                      user={this.state.user}
-                                                      userCount={this.state.userCount}
-                                                      fetchAndUpdateUserInfo={this.fetchAndUpdateUserInfo}/>}/>
-                        <Route component={this.notFound}/>
+                            render={props => <Home {...props}
+                                user={this.state.user}
+                                userCount={this.state.userCount}
+                                fetchAndUpdateUserInfo={this.fetchAndUpdateUserInfo} />} />
+                        <Route component={this.notFound} />
                     </Switch>
                 </div>
             </BrowserRouter>
@@ -152,4 +155,4 @@ class App extends React.Component {
     }
 }
 
-ReactDOM.render(<App/>, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById("root"));
