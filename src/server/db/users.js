@@ -104,13 +104,31 @@ function createUser(id, password, displayName, birthday, location) {
     return true;
 }
 
-function postUpdate(id, displayName, payload) {
-    post = {
-        id: id,
-        author: displayName,
-        post: payload.body,
-        time: new Date()
+function createUserPost(id, author, post, time) {
+    if(!getUser(id)){
+        return false
     }
+
+    const userPost = {
+        id: id,
+        author: author,
+        post: post,
+        time: time
+    }
+
+    getUser(id).userPosts.add(userPost);
+    return true;
+}    
+
+
+function updateUser(userId, newDisplayName, newBirthday, newLocation){
+
+const user = getUser(userId)
+if(user !== null && user !== undefined){
+    
+}
+
+
 }
 
 function resetAllUsers() {
@@ -120,4 +138,4 @@ function resetAllUsers() {
 
 
 
-module.exports = { getUser, verifyUser, createUser, resetAllUsers, postUpdate };
+module.exports = { getUser, verifyUser, createUser, resetAllUsers, createUserPost };

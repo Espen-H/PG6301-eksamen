@@ -56,7 +56,9 @@ router.get('/user', function (req, res) {
             id: req.user.id,
             displayName: req.user.displayName,
             birthday: req.user.birthday,
-            location: req.user.location
+            location: req.user.location,
+            friends: req.user.friends,
+            userPosts: req.user.userPosts
         }
     );
 });
