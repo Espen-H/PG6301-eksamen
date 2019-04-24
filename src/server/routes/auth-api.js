@@ -18,7 +18,7 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
 
 router.post('/signup', function (req, res) {
 
-    const created = Users.createUser(req.body.userId, req.body.password);
+    const created = Users.createUser(req.body.userId, req.body.password, req.body.displayName, req.body.birthday, req.body.location);
 
     if (!created) {
         res.status(400).send();
@@ -44,10 +44,7 @@ router.post('/logout', function (req, res) {
 });
 
 
-/*
-    Just return the id of the user, if the request is
-    authenticated with a valid session cookie
- */
+
 router.get('/user', function (req, res) {
 
     if (!req.user) {

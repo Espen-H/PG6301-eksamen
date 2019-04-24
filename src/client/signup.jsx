@@ -17,10 +17,7 @@ export class SignUp extends React.Component {
         };
     }
 
-    handleChanges = (event) => {
-        this.setState
-    }
-
+ 
     onUserIdChange = (event) => {
         this.setState({ userId: event.target.value, errorMsg: null });
     };
@@ -155,7 +152,6 @@ export class SignUp extends React.Component {
                     </label>
                     <input type="submit" value="Submit" />
                     {error}
-
                 </form>
             </div>
 
