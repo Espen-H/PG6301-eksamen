@@ -50,7 +50,7 @@ export class SignUp extends React.Component {
             return;
         }
 
-        const url = "/api/signup";
+        const url = "/api/auth/signup";
 
         const payload = { userId: userId, displayName: displayName, birthday: birthday, location: location, password: password };
 
@@ -82,7 +82,6 @@ export class SignUp extends React.Component {
 
         this.setState({ errorMsg: null });
         await this.props.fetchAndUpdateUserInfo();
-        event.preventDefault();
         this.props.history.push('/');
     };
 

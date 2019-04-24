@@ -11,7 +11,7 @@ export class HeaderBar extends React.Component {
   }
 
   doLogout = async () => {
-    const url = "/api/logout";
+    const url = "/api/auth/logout";
 
     let response;
 

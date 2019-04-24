@@ -1,5 +1,6 @@
 const express = require('express');
 const Users = require('../db/users');
+
 const router = express.Router();
 
 
@@ -9,18 +10,10 @@ router.get('/timeline', function (req, res) {
         res.status(401).send();
         return;
     }
-
-
-
-
-    res.status(200).json({
-            userPosts: req.body.userPosts
-        }
-    );
 });
 
-router.post('/user/:userId/userpost', function (req, res) {
-
+router.post('/:userId/userpost', function (req, res) {
+    
     const created = Users.createUserPost(req.body.userId, req.body.displayName, req.body.post, req.body.time);
 
     if (!created) {
@@ -29,14 +22,22 @@ router.post('/user/:userId/userpost', function (req, res) {
     }
 
    res.status(201).send()
-   return;
 })
 
-router.put('/user/:userId/update', function (req, res) {
+router.put('/:userId/update', function (req, res) {
 
+    let user = Users.getUser(req.params.userId)
+
+    if(user == null || user == undefined){
+        res.status(404).send()
+        return;
+    }
+
+    user.displayName = req.body.displayName;
+    user.birthday = req.body.birthday;
+    user.location = req.body.location;
 
 })
-
 
 
 module.exports = router;

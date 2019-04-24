@@ -68,7 +68,7 @@ class App extends React.Component {
 
     fetchAndUpdateUserInfo = async () => {
 
-        const url = "/api/user";
+        const url = "/api/auth/user";
 
         let response;
 

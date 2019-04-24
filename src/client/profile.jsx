@@ -6,19 +6,17 @@ export class Profile extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            userId: props.user.userId,
-            displayName: props.user.displayName,
-            birthday: props.user.birthday,
-            location: props.user.location,
+            userId: "",
+            displayName: "",
+            birthday: "",
+            location: "",
             errorMsg: null
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         if (this.props.user) {
             this.props.fetchAndUpdateUserInfo();
-        } else {
-            this.state.history.push("/")
         }
     }
 
@@ -36,9 +34,9 @@ export class Profile extends React.Component {
 
         const { userId, displayName, birthday, location } = this.state;
 
-        const url = "/api/user/:userId/update";
+        const url = '/api/user/:userId/update';
 
-        const payload = { userId: userId, displayName: displayName, birthday: birthday, location: location};
+        const payload = { displayName: displayName, birthday: birthday, location: location};
 
         let response;
 
@@ -59,18 +57,16 @@ export class Profile extends React.Component {
             this.setState({ errorMsg: "Error when connecting to server: status code " + response.status });
             return;
         }
-
-        this.setState({ errorMsg: null });
         await this.props.fetchAndUpdateUserInfo();
-        event.preventDefault();
         this.props.history.push('/profile');
+
     };
 
 
 
     render() {
 
-        const user = this.state.user
+        const user = this.props.user;
         return (
             <div>
                 <h1>Welcome to the home of {user.displayName}</h1>
@@ -79,16 +75,22 @@ export class Profile extends React.Component {
                     <h2>Do you want to change your information?</h2>
                     <form onSubmit={this.changeUserInfo}>
                         <label>
+                            <p>Display name</p>
                             <input type="text" value={this.state.displayName}
                                 onChange={this.onDisplayNameChange}
                                 id="profileDisplayName" />
+                             <input type="submit" value="Change" />
+
                         </label>
                         <label>
+                            <p>Birthday</p>
                             <input type="text" value={this.state.birthday}
                                 onChange={this.onBirthdayChange}
                                 id="profileBirthday" />
+                            <input type="submit" value="Change" />
                         </label>
                         <label>
+                            <p>Location</p>
                             <input type="text" value={this.state.location}
                                 onChange={this.onLocationChange}
                                 id="profileLocation" />
