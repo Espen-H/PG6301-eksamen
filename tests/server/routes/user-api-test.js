@@ -34,7 +34,7 @@ test("Test login successful", async () => {
         const response = await request(app)
             .get('/api/user/notAUser');
 
-        expect(response.statusCode).toBe(401);
+        expect(response.statusCode).toBe(400);
     });
 
     test("Test access data of existent user", async () => {

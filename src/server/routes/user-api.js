@@ -17,20 +17,20 @@ router.post('/user/login', function (req, res) {
     if (!verified) {
         res.sendStatus(401)
     } else {
-        
+
         res.status(204).send(Users.getUser(req.body.userId))
 
     }
 })
+router.post('/user/logout', function (req, res) {
+    res.sendStatus(204)
+})
 
 router.get('/user/:userId', function (req, res) {
-    const exist = Users.getUser(req.params.userId)
-    { exist !==undefined ?(
-        res.status(200).json({exist})
-    ) : (
-        res.sendStatus(401)
-    )   }
-   
+    if (Users.getUser(req.params.userId) !== undefined) {
+        res.status(200).json(Users.getUser(req.params.userId))
+    } else
+        res.sendStatus(400)
 })
 
 router.get('/user/timeline', function (req, res) {
@@ -59,9 +59,13 @@ router.post('/user/:userId/userpost', function (req, res) {
 })
 
 router.get('/user/:userId/userposts', function (req, res) {
-    res.send(req.body.userId)
     userPosts = Users.getUserPosts(Users.getUser(req.body.userId))
     res.status(200).json({ userPosts: userPosts })
+})
+
+router.get('/user/:userId/:postId', function (req, res) {
+    userPost = Users.getUserPosts(Users.getUser(req.body.userId), req.params.postId)
+    res.status(200).json({ userPost: userPost })
 })
 
 router.get('/users', function (req, res) {

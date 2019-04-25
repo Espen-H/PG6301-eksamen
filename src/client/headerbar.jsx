@@ -11,7 +11,7 @@ export class HeaderBar extends React.Component {
   }
 
   doLogout = async () => {
-    const url = "/api/auth/logout";
+    const url = "/api/user/logout";
 
     let response;
 
@@ -28,7 +28,7 @@ export class HeaderBar extends React.Component {
     }
 
     this.props.updateLoggedInUser(null);
-    this.props.history.push("/");
+    this.props.history.push("/login");
   };
 
   renderLoggedIn(displayName) {

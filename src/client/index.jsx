@@ -66,12 +66,6 @@ class App extends React.Component {
 
 
     render() {
-        /*
-            When we have a switch, to have a component for a page we just use
-            the attribute "component".
-            However, if we need to pass some props to the component, we need
-            to use the attribute "render".
-         */
 
         const user = this.state.user ? this.state.user : null;
 
@@ -79,8 +73,6 @@ class App extends React.Component {
             <BrowserRouter>
                 <div>
                     <HeaderBar user={user}
-                        updateLoggedInUser={this.updateLoggedInUser} />
-                    <Timeline user={user}
                         updateLoggedInUser={this.updateLoggedInUser} />
                     <Switch>
                         <Route exact path="/profile"

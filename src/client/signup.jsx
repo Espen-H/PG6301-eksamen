@@ -81,8 +81,10 @@ export class SignUp extends React.Component {
         }
 
         this.setState({ errorMsg: null });
-        await this.props.fetchAndUpdateUserInfo();
-        this.props.history.push('/');
+        await this.props.fetchAndUpdateUserInfo(userId);
+        event.preventDefault();
+        this.props.history.push("/");
+
     };
 
     render() {

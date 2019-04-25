@@ -7,7 +7,6 @@ export class Profile extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            usersList: users.getAllUsers,
             userId: "",
             displayName: "",
             birthday: "",
@@ -76,7 +75,7 @@ export class Profile extends React.Component {
                 {loggedIn ? (
                     <div>
                         <h1>Welcome to the home of {user.displayName}</h1>
-                        <h2>I was on {user.birthday}</h2>
+                        <h2>I was born on {user.birthday}</h2>
                         <h2>My current home is in {user.location}</h2>
                         <div>
                             <h2>Do you want to change your information?</h2>

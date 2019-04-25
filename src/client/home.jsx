@@ -1,10 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import Timeline from "./timeline"
 
 export class Home extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            post: "",
+            time: "",
+            errorMsg: null
+        }
     }
 
     componentDidMount() {
@@ -12,26 +17,55 @@ export class Home extends React.Component {
             this.props.fetchAndUpdateUserInfo();
         }
     }
+    onPostChange = (event) => {
+        this.setState({ post: event.target.value, time: Date.now(), errorMsg: null });
+    };
 
-   
+    postUpdate = async () => {
+        const { post, time } = this.state
+        const url = `/api/user/${userId}/userpost`;
 
+        let response;
+
+        try {
+            response = await http.post(url, {
+                userId: this.props.userId,
+                displayName: this.props.displayName,
+                post: post,
+                time: time
+            });
+        } catch (err) {
+            this.setState({ errorMsg: "Failed to connect to server: " + err });
+            return;
+        }
+        if (response.status !== 201) {
+            this.setState({ errorMsg: "Error when connecting to server: status code " + response.status });
+            return;
+        }
+        this.setState({ errorMsg: null })
+
+    };
 
     render() {
         const user = this.props.user;
         const loggedIn = user !== null && user !== undefined;
 
         return (
-            <div>
+            <div id="HomeContainer">
                 {loggedIn ? (
-                    <div>
+                    <div id="loggedInHome">
                         <div id="status_update">
-                            <p>Sup {user.displayName}</p>
-                            <input type="text"></input>
-                            <div className={"btn"}>Post</div>
+                            <form onSubmit={this.postUpdate}>
+                                <p>How was your day {user.displayName}?</p>
+                                <input type="text" value={this.state.post}
+                                    onChange={this.onPostChange} />
+                                <input type="submit" value="tasty userinputs" />
+
+                            </form>
                         </div>
 
                         <div id="timeline">
-                           <p>amazing timeline here</p>
+                            <Timeline posts={user.userPosts}/>
                         </div>
                     </div>
                 ) : (
@@ -47,3 +81,4 @@ export class Home extends React.Component {
         );
     }
 }
+

@@ -1,5 +1,5 @@
 {
-  "name": "part-09",
+  "name": "web-og-api-eksamen",
   "version": "1.0.0",
   "main": "index.js",
   "repository": {},
@@ -50,8 +50,9 @@
       "<rootDir>/tests/jest-setup.js"
     ],
     "testRegex": "tests/.*-test\\.(js|jsx)$",
+    "collectCoverage": true,
     "collectCoverageFrom": [
-      "src/**.(js|jsx)"
+      "src/**/*.{js,jsx}", "!**/node_modules/**"
     ]
   },
   "engines": {

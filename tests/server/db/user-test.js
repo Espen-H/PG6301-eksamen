@@ -8,7 +8,7 @@ test("test user map", () => {
 })
 
 test("test get methods", () => {
-    expect(() => Users.getUser("notAUser").toBe(false));
+    expect(() => Users.getUser("notAUser").toBeDefined(false));
     expect(() => Users.getUser("Foo").toBeDefined());
     expect(() => Users.getAllUsers().toBeDefined());
     expect(() => Users.getUserPosts("Foo")[0].toBeDefined());
@@ -24,5 +24,15 @@ test("test post methods", () => {
     Users.updateUser(user, "New Name", "123", "new Loc")
     expect(() => user.displayName.toBe("New Name"))
     expect(() => user.birthday.toBe("123"))
-    expect(() => user.loc.toBe("new loc"))
+    expect(() => user.location.toBe("new loc"))
+})
+
+test("test delete method", () => {
+    Users.createUser("Test21", "123", "name", "bday", "location");
+    let user = Users.getUser("Test21")
+    Users.createUserPost("Test21", "name", "here is the boom", Date.now())
+    expect(() => Users.getUserPost("Test21", 0).toBeDefined());
+    expect((Users.deleteUserPost("Test21", 0).toBe(false)))
+    expect(() => Users.getUserPost("Test21", 0).toBeDefined(false));
+    expect(() => user.postCount.toBe(0));      
 })
