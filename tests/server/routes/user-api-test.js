@@ -12,13 +12,20 @@ test("Test fail login", async () => {
     expect(response.statusCode).toBe(401);
 });
 
-test("create user and login successful", async () => {
-    const response = await request(app)
+
+test("Test create account", async () => {
+        const response = await request(app)
+        .post('/api/user/signup')
+        .send({userId: "Test", password: test, displayName: "test" })
+})
+
+test("Test login successful", async () => {
+        const response = await request(app)
         .post('/api/user/login')
         .send({userId: 'Foo', password: "bar"})
         .set('Content-Type', 'application/json');
 
-        expect(response.statusCode).toBe(200);
+        expect(response.statusCode).toBe(204);
         })
 
 

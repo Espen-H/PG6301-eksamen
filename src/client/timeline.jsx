@@ -11,7 +11,11 @@ export class Timeline extends React.Component {
         }
     }
 
-
+    /**
+     *  <Index> --- this.state.user = {name: "espen" ....}, getUser = (): User
+     *      <ComponentB getUser={getUser}>  this.props.getUser() -> {name: "espen" ....} 
+     *      <ComponentC> 
+     */
 
     getTimeline = async () => {
 
@@ -29,7 +33,7 @@ export class Timeline extends React.Component {
 
     postUpdate = async () => {
 
-        const url = ("/api/:userId/userpost")
+        const url = (`/api/${this.props.user.userId}/userpost`)
 
         const payload = { id, author, post, time }
 
@@ -67,7 +71,7 @@ export class Timeline extends React.Component {
     fillTimeline = (props) => {
         const userPosts = props.userPosts
         const listItems = userPosts.map((userPost) =>
-            <li>{userPost}</li>
+            <li key={userPost.postId}>{userPost}</li>
         )
         return (
             <ul>listItems</ul>

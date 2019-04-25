@@ -8,6 +8,7 @@ export class Login extends React.Component{
         super(props);
 
         this.state = {
+            user:null,
             userId: "",
             password: "",
             errorMsg: null
@@ -55,9 +56,9 @@ export class Login extends React.Component{
             return;
         }
 
-        this.setState({errorMsg: null});
-        await this.props.fetchAndUpdateUserInfo(userId, true);
-        this.props.history.push('/');
+        this.setState(() => ({errorMsg: null}));
+        await this.props.fetchAndUpdateUserInfo(userId);
+        // this.props.history.pushState(null,);
     };
 
 

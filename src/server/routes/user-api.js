@@ -4,7 +4,7 @@ const Users = require('../db/users');
 const router = express.Router();
 
 router.post('/user/signup', function (req, res) {
-    const createdUser = Users.createUser(req.params.userId, req.params.password, req.params.displayName, req.params.birthday, req.params.location)
+    const createdUser = Users.createUser(req.body.userId, req.body.password, req.body.displayName, req.body.birthday, req.body.location)
 
     if (!createdUser) {
         res.sendStatus(400)
@@ -13,25 +13,24 @@ router.post('/user/signup', function (req, res) {
 })
 
 router.post('/user/login', function (req, res) {
-    const verified = Users.verifyUser(req.params.userId, req.params.password);
+    const verified = Users.verifyUser(req.body.userId, req.body.password);
     if (!verified) {
         res.sendStatus(401)
     } else {
         
-        res.status(204).send(Users.getUser(req.params.userId))
+        res.status(204).send(Users.getUser(req.body.userId))
 
     }
 })
 
 router.get('/user/:userId', function (req, res) {
-    if (Users.getUser(req.params.userId) == undefined) {
+    const exist = Users.getUser(req.params.userId)
+    { exist !==undefined ?(
+        res.status(200).json({exist})
+    ) : (
         res.sendStatus(401)
-        return
-    }
-    res.status(200).json({
-        id: req.params.userId, displayName: req.params.displayName, birthday: req.params.birthday,
-        location: req.params.location, friends: req.params.friends, userPosts: req.params.userPosts
-    }).replace(/\\/g, "")
+    )   }
+   
 })
 
 router.get('/user/timeline', function (req, res) {
@@ -49,7 +48,7 @@ router.get('/user/timeline', function (req, res) {
 
 router.post('/user/:userId/userpost', function (req, res) {
 
-    const created = Users.createUserPost(req.params.userId, req.params.displayName, req.params.post, req.params.time);
+    const created = Users.createUserPost(req.body.userId, req.body.displayName, req.body.post, req.body.time);
 
     if (!created) {
         res.status(400).send();
@@ -60,7 +59,8 @@ router.post('/user/:userId/userpost', function (req, res) {
 })
 
 router.get('/user/:userId/userposts', function (req, res) {
-    userPosts = Users.getUserPosts(Users.getUser(req.params.userId))
+    res.send(req.body.userId)
+    userPosts = Users.getUserPosts(Users.getUser(req.body.userId))
     res.status(200).json({ userPosts: userPosts })
 })
 
@@ -74,7 +74,7 @@ router.put('/user/:userId/update', function (req, res) {
         res.status(400).send()
         return;
     }
-    const updatedUser = Users.updateUser(req.params.userId, req.params.displayName, req.params.birthday, req.params.location)
+    const updatedUser = Users.updateUser(req.body.userId, req.body.displayName, req.body.birthday, req.body.location)
     res.send(204)
 })
 

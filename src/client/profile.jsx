@@ -40,7 +40,7 @@ export class Profile extends React.Component {
    
            const { userId, displayName, birthday, location } = this.state;
             
-           const url = '/api/users/'+userId+'/update';
+           const url = `/api/users/${userId}/update`;
            const payload = {userId: userId, displayName: displayName, birthday: birthday, location: location};
    
            let response;

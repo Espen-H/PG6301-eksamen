@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import http from "axios";
 
 import { Home } from "./home";
 import Login from "./login";
@@ -21,16 +22,14 @@ class App extends React.Component {
     }
 
 
-    fetchAndUpdateUserInfo = async (userId, verified) => {
+    fetchAndUpdateUserInfo = async (userId) => {
 
-        const url = '/api/user/'+userId;
+        const url = `/api/user/${userId ? userId : this.state.user.userId}`;
 
         let response;
 
         try {
-            response = await fetch(url, {
-                method: "get"
-            });
+            response = await http.get(url);
         } catch (err) {
             this.setState({ errorMsg: "Failed to connect to server: " + err });
             return;
@@ -45,13 +44,12 @@ class App extends React.Component {
         if (response.status !== 200) {
             //TODO here could have some warning message in the page.
         } else {
-            const payload = await JSON.parse(response);
-            this.updateLoggedInUser(payload);
+            this.updateLoggedInUser(response.data);
         }
     };
 
     updateLoggedInUser = (user) => {
-        this.setState({ user: user });
+        this.setState(prev => ({ user: user }));
     };
 
 
@@ -92,6 +90,7 @@ class App extends React.Component {
                             />} />
                         <Route exact path="/login"
                             render={props => <Login {...props}
+                                user={this.state.user}
                                 fetchAndUpdateUserInfo={this.fetchAndUpdateUserInfo} />} />
                         <Route exact path="/signup"
                             render={props => <SignUp {...props}
@@ -99,7 +98,6 @@ class App extends React.Component {
                         <Route exact path="/"
                             render={props => <Home {...props}
                                 user={this.state.user}
-                                userCount={this.state.userCount}
                                 fetchAndUpdateUserInfo={this.fetchAndUpdateUserInfo} />} />
                         <Route component={this.notFound} />
                     </Switch>

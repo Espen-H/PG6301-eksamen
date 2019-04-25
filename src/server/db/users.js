@@ -6,13 +6,15 @@ const users = new Map([
         birthday: "01.01.93",
         location: "Callback hell",
         friends: [],
-        userPosts: [{
-            id: 0,
+        postCount: 1,
+        userPosts: [0, [{
+            user: "Foo", //temp
+            postiD: 0,
             author: "Foo",
             post: "I want snacks",
             time: "Wed Apr 24 2019 14:15:02 GMT+0200 (sentraleuropeisk sommertid)"
-
         }]
+        ]
     }],
     ["Bar", {
         userId: "Bar",
@@ -21,12 +23,15 @@ const users = new Map([
         birthday: "01.01.93",
         location: "placeholder",
         friends: [],
-        userPosts: [{
-            id: 1,
+        postCount: 1,
+        userPosts: [0, [{
+            user: "Bar",
+            postiD: 0,
             author: "hunter21",
             post: "I just bought snacks",
             time: "Wed Apr 24 2019 09:12:32 GMT+0200 (sentraleuropeisk sommertid)"
         }]
+        ]
     }],
     ["Idtent", {
         userId: "Idtent",
@@ -35,12 +40,15 @@ const users = new Map([
         birthday: "12.12.1912",
         location: "127.0.0.1",
         friends: [],
-        userPosts: [{
-            id: 2,
+        postCount: 1,
+        userPosts: [0, [{
+            user: "Idtent",
+            postiD: 0,
             author: "displayName",
             post: "Have you ever wondered if we're real or just bits in somethings memory?",
             time: "Wed Apr 24 2019 11:04:43 GMT+0200 (sentraleuropeisk sommertid)"
         }]
+        ]
     }],
     ["forohfor", {
         userId: "forohfor",
@@ -49,10 +57,10 @@ const users = new Map([
         birthday: "4.04.not found",
         location: "",
         friends: [],
+        postCount: 0,
         userPosts: []
     }]
 ]);
-const postCount = 3;
 
 
 function getUser(userId) {
@@ -84,14 +92,23 @@ function getUserPosts(user) {
     let result = [];
     user.userPosts.forEach(post => {
         result.push({
+            user: user.userId,
             id: post.id,
             author: post.author,
             post: post.post,
             time: post.time
         })
     })
+    return result;
+}
 
-    return JSON.stringify([...result])
+function getUserPost(user) {
+    if (user == undefined || user == null) {
+        throw ("Something went wrong trying to  get userPosts")
+    }
+
+    user.userPosts.find(postId)
+    return result;
 }
 
 function verifyUser(userId, password) {
@@ -118,6 +135,7 @@ function createUser(userId, password, displayName, birthday, location) {
         birthday: birthday,
         location: location,
         friends: [],
+        postCount: 0,
         userPosts: []
     };
     users.set(userId, user)
@@ -136,8 +154,12 @@ function createUserPost(userId, author, post, time) {
     }
 
     if (getUser(userId) == undefined) {
+        return false
     } else {
-        getUser(userId).userPosts.push(userPost)
+        let user = getUser(userId)
+        user.userPosts.push(userPost)
+        user.postCount++;
+        return true
     }
 }
 
@@ -154,11 +176,19 @@ function updateUser(userId, newDisplayName, newBirthday, newLocation) {
 
 }
 
-function resetAllUsers() {
-    users.clear();
+function deleteUserPost(userId, postId) {
+    if (getUser(userId) !== undefined) {
+        let user = getUser(userId)
+        if (user.getUserPost(postId !== undefined)) {
+            let post = getUserPost(postId)
+            post.pop(postId)
+            user.postCount--
+            return true
+        }
+    }
+
+
 }
 
 
-
-
-module.exports = { users, getUser, verifyUser, createUser, resetAllUsers, createUserPost, updateUser, getUserPosts, getAllUsers };
+module.exports = { users, getUser, verifyUser, createUser, createUserPost, updateUser, getUserPosts, getAllUsers, deleteUserPost, getUserPost };

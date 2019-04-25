@@ -23,4 +23,6 @@ test("test post methods", () => {
     expect(() => JSON.parse(Users.getUserPosts(user.userId)).toBe(1))
     Users.updateUser(user, "New Name", "123", "new Loc")
     expect(() => user.displayName.toBe("New Name"))
+    expect(() => user.birthday.toBe("123"))
+    expect(() => user.loc.toBe("new loc"))
 })
