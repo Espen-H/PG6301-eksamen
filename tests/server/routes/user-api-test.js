@@ -44,3 +44,14 @@ test("Test login successful", async () => {
 
         expect(response.statusCode).toBe(200);
     })
+
+
+    test("Test userPost"), async () => {
+
+        const response = await request(app)
+            .post('/api/user/userPost')
+            .send({userId: "Foo", displayName:"Test", post: "Testing", time: "1212" })
+            .set('Content-Type', 'application/json');
+            expect(response.statusCode).toBe(201);
+
+    }
