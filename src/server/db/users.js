@@ -1,13 +1,13 @@
 const users = new Map([
     ["Foo", {
-        id: "Foo",
+        userId: "Foo",
         password: "bar",
         displayName: "Plaintext",
         birthday: "01.01.93",
         location: "Callback hell",
         friends: [],
         userPosts: [{
-            id: "Foo",
+            id: 0,
             author: "Foo",
             post: "I want snacks",
             time: "Wed Apr 24 2019 14:15:02 GMT+0200 (sentraleuropeisk sommertid)"
@@ -15,35 +15,35 @@ const users = new Map([
         }]
     }],
     ["Bar", {
-        id: "Bar",
+        userId: "Bar",
         password: "foo",
         displayName: "hunter21",
         birthday: "01.01.93",
         location: "placeholder",
         friends: [],
         userPosts: [{
-            id: "Bar",
+            id: 1,
             author: "hunter21",
             post: "I just bought snacks",
             time: "Wed Apr 24 2019 09:12:32 GMT+0200 (sentraleuropeisk sommertid)"
         }]
     }],
     ["Idtent", {
-        id: "Idtent",
+        userId: "Idtent",
         password: "password",
         displayName: "displayName",
         birthday: "12.12.1912",
         location: "127.0.0.1",
         friends: [],
         userPosts: [{
-            id: "Idtent",
+            id: 2,
             author: "displayName",
             post: "Have you ever wondered if we're real or just bits in somethings memory?",
             time: "Wed Apr 24 2019 11:04:43 GMT+0200 (sentraleuropeisk sommertid)"
         }]
     }],
     ["forohfor", {
-        id: "forohfor",
+        userId: "forohfor",
         password: "notfound",
         displayName: "gonewiththewind",
         birthday: "4.04.not found",
@@ -52,24 +52,51 @@ const users = new Map([
         userPosts: []
     }]
 ]);
+const postCount = 3;
 
 
-function getUser(id) {
-
-    return users.get(id);
+function getUser(userId) {
+    if (users.get(userId) == undefined) {
+        return undefined
+    }
+    return users.get(userId)
 }
 
-function getAllUsers(){
-    return users
+function getAllUsers() {
+    let result = [];
+    users.forEach(user => {
+        result.push({
+            userId: user.userId,
+            displayName: user.displayName,
+            birthday: user.birthday,
+            location: user.location
+        })
+    })
+
+    return JSON.stringify([...result]).replace(/\\/g, "")
 }
 
-function getUserPosts(user){
-    return user.userPosts;
+function getUserPosts(user) {
+    if (user == undefined || user == null) {
+        throw ("Something went wrong trying to  get userPosts")
+    }
+
+    let result = [];
+    user.userPosts.forEach(post => {
+        result.push({
+            id: post.id,
+            author: post.author,
+            post: post.post,
+            time: post.time
+        })
+    })
+
+    return JSON.stringify([...result])
 }
 
-function verifyUser(id, password) {
+function verifyUser(userId, password) {
 
-    const user = getUser(id);
+    const user = getUser(userId);
 
     if (user === undefined) {
         return false;
@@ -78,14 +105,14 @@ function verifyUser(id, password) {
     return user.password === password;
 }
 
-function createUser(id, password, displayName, birthday, location) {
+function createUser(userId, password, displayName, birthday, location) {
 
-    if (getUser(id) !== undefined) {
+    if (getUser(userId) !== undefined) {
         return false;
     }
- // This is a shitshow of userinputs
+    // This is a shitshow of userinputs
     const user = {
-        id: id,
+        userId: userId,
         password: password,
         displayName: displayName,
         birthday: birthday,
@@ -93,40 +120,36 @@ function createUser(id, password, displayName, birthday, location) {
         friends: [],
         userPosts: []
     };
-    users.set(id, user)
-    console.log("Here comes the user")
-    console.log(getUser)
-    if(getUser(id)) {
+    users.set(userId, user)
+    if (getUser(userId)) {
         return true;
     }
 }
 
-function createUserPost(id, author, post, time) {
-    if(!getUser(id)){
-        return false
-    }
+function createUserPost(userId, author, post, time) {
 
     const userPost = {
-        id: id,
+        id: postCount,
         author: author,
         post: post,
         time: time
     }
 
-    getUser(id).userPosts.add(userPost);
-    return true;
-}    
-
-
-function updateUser(user, newDisplayName, newBirthday, newLocation){
-
-let update = user;
-if(user !== null && user !== undefined){
-    update.displayName  = newDisplayName
-    update.birthday = newBirthday
-    update.location = newLocation
-    return update;
+    if (getUser(userId) == undefined) {
+    } else {
+        getUser(userId).userPosts.push(userPost)
+    }
 }
+
+
+function updateUser(userId, newDisplayName, newBirthday, newLocation) {
+    let update = getUser(userId)
+    if (update !== null && update !== undefined) {
+        update.displayName = newDisplayName
+        update.birthday = newBirthday
+        update.location = newLocation
+        return true;
+    }
 
 
 }
@@ -138,4 +161,4 @@ function resetAllUsers() {
 
 
 
-module.exports = {users, getUser, verifyUser, createUser, resetAllUsers, createUserPost, updateUser, getUserPosts, getAllUsers };
+module.exports = { users, getUser, verifyUser, createUser, resetAllUsers, createUserPost, updateUser, getUserPosts, getAllUsers };

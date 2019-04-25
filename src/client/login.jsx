@@ -25,7 +25,7 @@ export class Login extends React.Component{
     doLogIn = async () => {
         const {userId, password} = this.state;
 
-        const url = "/api/auth/login";
+        const url = "/api/user/login";
 
         const payload = {userId: userId, password: password};
 
@@ -56,7 +56,7 @@ export class Login extends React.Component{
         }
 
         this.setState({errorMsg: null});
-        await this.props.fetchAndUpdateUserInfo();
+        await this.props.fetchAndUpdateUserInfo(userId, true);
         this.props.history.push('/');
     };
 

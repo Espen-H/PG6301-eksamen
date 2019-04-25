@@ -50,7 +50,7 @@ export class SignUp extends React.Component {
             return;
         }
 
-        const url = "/api/auth/signup";
+        const url = "/api/user/signup";
 
         const payload = { userId: userId, displayName: displayName, birthday: birthday, location: location, password: password };
 
