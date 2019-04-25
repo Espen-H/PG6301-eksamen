@@ -1,24 +1,29 @@
 import React from 'react'
 import { withRouter, Link } from 'react-router-dom'
+const users = require('../server/db/users')
 
 
 export class Profile extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            usersList: users.getAllUsers,
             userId: "",
             displayName: "",
             birthday: "",
             location: "",
+            userPosts: [],
             errorMsg: null
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         if (this.props.user) {
             this.props.fetchAndUpdateUserInfo();
         }
     }
+   
+    
     
       // #TODO Fix this
        onDisplayNameChange = (event) => {
@@ -34,10 +39,9 @@ export class Profile extends React.Component {
        changeUserInfo = async () => {
    
            const { userId, displayName, birthday, location } = this.state;
-   
-           const url = '/api/user/:userId/update';
-   
-           const payload = { displayName: displayName, birthday: birthday, location: location};
+            
+           const url = '/api/users/'+userId+'/update';
+           const payload = {userId: userId, displayName: displayName, birthday: birthday, location: location};
    
            let response;
    
@@ -58,9 +62,7 @@ export class Profile extends React.Component {
                this.setState({ errorMsg: "Error when connecting to server: status code " + response.status });
                return;
            }
-           await this.props.fetchAndUpdateUserInfo();
-           this.props.history.push('/profile');
-   
+         const data = await response.json;
        };
    
 
@@ -74,7 +76,8 @@ export class Profile extends React.Component {
                 {loggedIn ? (
                     <div>
                         <h1>Welcome to the home of {user.displayName}</h1>
-
+                        <h2>I was on {user.birthday}</h2>
+                        <h2>My current home is in {user.location}</h2>
                         <div>
                             <h2>Do you want to change your information?</h2>
                             <form onSubmit={this.changeUserInfo}>
@@ -88,9 +91,9 @@ export class Profile extends React.Component {
                                 </label>
                                 <label>
                                     <p>Birthday</p>
-                                    <input type="text" value={this.state.birthday}
+                                    <input type="date" value={this.state.birthday}
                                         onChange={this.onBirthdayChange}
-                                        id="profileBirthday" />
+                                        id="profileBirthday" min="0000-01-01" max="9999-12-31"/>
                                     <input type="submit" value="Change" />
                                 </label>
                                 <label>

@@ -29,7 +29,7 @@ export class Timeline extends React.Component {
 
     postUpdate = async () => {
 
-        const url = ("/api/userpost")
+        const url = ("/api/:userId/userpost")
 
         const payload = { id, author, post, time }
 

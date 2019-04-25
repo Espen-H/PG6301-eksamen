@@ -59,6 +59,14 @@ function getUser(id) {
     return users.get(id);
 }
 
+function getAllUsers(){
+    return users
+}
+
+function getUserPosts(user){
+    return user.userPosts;
+}
+
 function verifyUser(id, password) {
 
     const user = getUser(id);
@@ -75,21 +83,7 @@ function createUser(id, password, displayName, birthday, location) {
     if (getUser(id) !== undefined) {
         return false;
     }
-
-
-
-    /*
-    this can't end badly with so many unchecked userinputs hahaha... /s
-    id - Login id
-    UserInfo - object containing the user info
-    password - login password
-    displayName - Name that is displayed to the public
-    Birthday - just a string from user
-    Location - users location
-    Friends - map of users that have accepted friend requests
-    userPosts - map of status updates user have posted
-    */
-
+ // This is a shitshow of userinputs
     const user = {
         id: id,
         password: password,
@@ -99,9 +93,12 @@ function createUser(id, password, displayName, birthday, location) {
         friends: [],
         userPosts: []
     };
-
-    users.set(id, user);
-    return true;
+    users.set(id, user)
+    console.log("Here comes the user")
+    console.log(getUser)
+    if(getUser(id)) {
+        return true;
+    }
 }
 
 function createUserPost(id, author, post, time) {
@@ -121,11 +118,14 @@ function createUserPost(id, author, post, time) {
 }    
 
 
-function updateUser(userId, newDisplayName, newBirthday, newLocation){
+function updateUser(user, newDisplayName, newBirthday, newLocation){
 
-const user = getUser(userId)
+let update = user;
 if(user !== null && user !== undefined){
-    
+    update.displayName  = newDisplayName
+    update.birthday = newBirthday
+    update.location = newLocation
+    return update;
 }
 
 
@@ -138,4 +138,4 @@ function resetAllUsers() {
 
 
 
-module.exports = { getUser, verifyUser, createUser, resetAllUsers, createUserPost };
+module.exports = {users, getUser, verifyUser, createUser, resetAllUsers, createUserPost, updateUser, getUserPosts, getAllUsers };

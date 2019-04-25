@@ -8,7 +8,6 @@ const userApi = require('./routes/user-api')
 const authApi = require('./routes/auth-api');
 const Users = require('./db/users');
 
-const WsHandler = require('./ws-handler');
 
 
 const app = express();
@@ -16,7 +15,6 @@ const app = express();
 //to handle JSON payloads
 app.use(bodyParser.json());
 
-WsHandler.init(app);
 
 
 app.use(session({
@@ -69,7 +67,7 @@ app.use(passport.session());
 
 
 //--- Routes -----------
-app.use('/api/auth', authApi);
+// app.use('/api/auth', authApi);
 app.use('/api/user', userApi)
 
 //handling 404

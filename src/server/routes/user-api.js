@@ -4,18 +4,23 @@ const Users = require('../db/users');
 const router = express.Router();
 
 
+router.get('/:userId', function(req, res) {
+    user = Users.getUser(req.body.userId)
+    res.status(200).json({id: user.userId, displayName: user.displayName, birthday: user.birthday, location: user.location})
+})
+
 router.get('/timeline', function (req, res) {
 
-    if (!req.user) {
-        res.status(401).send();
-        return;
-    }
-
-    Users.forEach(userPost => {
-        
+    const users = Users.getAllUsers();
+    let timeline = [];
+    users.forEach(user => {
+        let posts = getUserPosts(user)
+        timeline.p
     });
 
+    res.status(201).send().json({timeline});
 });
+
 
 router.post('/:userId/userpost', function (req, res) {
 
@@ -26,24 +31,19 @@ router.post('/:userId/userpost', function (req, res) {
         return;
     }
 
-    res.status(201).send()
+    res.status(201).send().json(timeline)
 })
 
 router.put('/:userId/update', function (req, res) {
-
-    let user = Users.getUser(req.params.userId)
-
+       let user = Users.getUser(req.params)
     if (user == null || user == undefined) {
         res.status(400).send()
         return;
     }
+    const updatedUser = Users.updateUser(user, req.body.displayName, req.body.birthday, req.body.location)
+    res.send(204).json({updatedUser})
+    })
 
-    user.displayName = req.body.displayName;
-    user.birthday = req.body.birthday;
-    user.location = req.body.location;
-
-    res.send(204)
-})
-
+    
 
 module.exports = router;
