@@ -2,7 +2,7 @@
 
 Test coverage as of 26/04/19 07:13 is at 37.45%
 
-This is a really underdeveloped social media platform. I went with the same structure that was used in this course as it was familiar, and playing it safe with the timeframe in mind. Most of the time went into the REST api, so the frontend looks about as great as my faces right now probably. 
+This is a really underdeveloped social media platform. I went with the same structure that was used in this course as it was familiar, and playing it safe with the timeframe in mind. Most of the time went into the REST api, so the frontend looks about as great as my face right now probably. 
 
 ## Instructions how to run
 1. yarn install to install dependencies
@@ -10,7 +10,7 @@ This is a really underdeveloped social media platform. I went with the same stru
 3. Open up localhost:8080
 4. Create a temp user, or use a test user provided below
 
-##Any special login credentials needed?
+## Any special login credentials needed?
 Test users:
 User: "Foo", Pass: "bar"
 User: "Bar, Pass: "foo"
