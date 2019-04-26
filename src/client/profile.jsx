@@ -70,17 +70,17 @@ export class Profile extends React.Component {
         const user = this.props.user;
         const loggedIn = user !== null && user !== undefined;
         return (
-            <div>
-                {loggedIn ? (
-                    <div>
+            <div id="profileContainer">
+                {loggedIn ? (<div>
+                     <div id="timeline">
+                     <Timeline posts={user.userPosts} /> </div>
+                   <div className="profileUserInfo">
                         <h1>Welcome to the home of {user.displayName}</h1>
                         <h2>I was born on {user.birthday}</h2>
                         <h2>My current home is in {user.location}</h2>
-                        <div>
+                        
                             <h2>Do you want to change your information?</h2>
-                            <div id="timeline">
-                            <Timeline posts={user.userPosts}/>
-                        </div>
+
                             <form onSubmit={this.changeUserInfo}>
                                 <label>
                                     <p>Display name</p>
@@ -105,7 +105,10 @@ export class Profile extends React.Component {
                                 </label>
                                 <input type="submit" value="Change" />
                             </form>
-                        </div></div>) : (
+                        </div>
+                      
+                        
+                    </div>) : (
                         <div>
                             <p>You're not logged in!</p>
                             <p>If you already have a account</p>

@@ -9,12 +9,34 @@ body {
 #HomeContainer {
     position: relative;
     width: 100%;
-    left: 42%;
+    left: 30%;
     align-content: center;
     justify-content: space-evenly;
 }
 
+#profileContainer {
+    position: relative;
+    width: 100%;
+    left: 5%;
+    justify-content: space-evenly;
+}
 
+#timeline{
+position: fixed;
+right: 20%;
+}
+
+.profileUserInfo{
+    position: relative;
+    left: 10%;
+}
+
+
+.loginAndsignup {
+    position: relative;
+    top: 30%;
+    left: 42%;
+    }
 
 /* Shamelessly stolen from w3schools*/
 .userPost {

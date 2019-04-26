@@ -2,7 +2,7 @@
 
 Test coverage as of 26/04/19 05:30 is at 37.31%
 
-This is a really underdeveloped social media platform. I went with the same structure that was used in this course as it was families, and playing it safe with the timeframe in mind.
+This is a really underdeveloped social media platform. I went with the same structure that was used in this course as it was familiar, and playing it safe with the timeframe in mind. 
 
 *In the documentation, you need to explain what your project does, how it is structured, how you implemented it and which different technologies you did choose to use. Think about it like a “pitch sale” in which you want to show a potential employer what you have learned in this course.*
 
@@ -18,8 +18,7 @@ run `command x y z..`
 Any special login credentials needed?
 
 ## Extra packages?
-I lost track and the lack of sleep is killing me
-
+Outsides of what was covered in class
 ## Special scripts?
 None outside of what was provided in the assignment.
 
@@ -30,7 +29,7 @@ None outside of what was provided in the assignment.
     1. A user should be able to post new messages on his/her “timeline”, which should be displayed in
     chronological order together in the same page with the user’s info.
 
-    
+
 
 
     2. Should be possible to search for existing users.
