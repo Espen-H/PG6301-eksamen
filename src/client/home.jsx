@@ -21,16 +21,16 @@ export class Home extends React.Component {
         this.setState({ post: event.target.value, time: Date.now(), errorMsg: null });
     };
 
-    postUpdate = async () => {
-        const { post, time } = this.state
+    createPost = async () => {
+        const {userId, displayName, post, time } = this.state
         const url = `/api/user/${userId}/userpost`;
 
         let response;
 
         try {
             response = await http.post(url, {
-                userId: this.props.userId,
-                displayName: this.props.displayName,
+                userId: userId,
+                displayName: displayName,
                 post: post,
                 time: time
             });
@@ -55,7 +55,7 @@ export class Home extends React.Component {
                 {loggedIn ? (
                     <div id="loggedInHome">
                         <div id="status_update">
-                            <form onSubmit={this.postUpdate}>
+                            <form onSubmit={this.createPost}>
                                 <p>How was your day {user.displayName}?</p>
                                 <input type="text" value={this.state.post}
                                     onChange={this.onPostChange} />

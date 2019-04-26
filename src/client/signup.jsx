@@ -100,7 +100,7 @@ export class SignUp extends React.Component {
         }
 
         return (
-            <div>
+            <div className="loginAndsignup">
                 <form onSubmit={this.doSignUp}>
                     <label>
                         <p>User Id:</p>

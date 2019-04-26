@@ -55,18 +55,38 @@ router.post('/user/:userId/userpost', function (req, res) {
         return;
     }
 
-    res.status(201).send()
+    res.sendStatus(201)
 })
 
 router.get('/user/:userId/userposts', function (req, res) {
-    userPosts = Users.getUserPosts(Users.getUser(req.body.userId))
+    if (Users.getUser(userId) === undefined) {
+        res.sendStatus(400)
+    }
+    userPosts = Users.getUserPosts(Users.getUser(req.params.userId))
     res.status(200).json({ userPosts: userPosts })
 })
 
-router.get('/user/:userId/:postId', function (req, res) {
-    userPost = Users.getUserPosts(Users.getUser(req.body.userId), req.params.postId)
+router.get('/user/:userId/post/:postId', function (req, res) {
+    if (Users.getUser(req.params.userId) === undefined) {
+        res.sendStatus(400)
+    }
+    userPost = Users.getUserPost(Users.getUser(req.params.userId), req.params.postId)
     res.status(200).json({ userPost: userPost })
 })
+
+router.delete('/user/:userId/post/:postId', function (req, res) {
+    console.log("start")
+    if (Users.getUser(req.params.userId) === undefined) {
+        res.sendStatus(400)
+        return;
+    } else {
+    console.log(req.params)
+    Users.deleteUserPost(req.params.userId, req.params.postId)
+    console.log("DELETED!?")
+    res.sendStatus(204)
+    console.log("It  is done")
+
+}})
 
 router.get('/users', function (req, res) {
     userbase = Users.getAllUsers()
@@ -75,11 +95,11 @@ router.get('/users', function (req, res) {
 
 router.put('/user/:userId/update', function (req, res) {
     if (Users.getUser(req.body.userId) == undefined) {
-        res.status(400).send()
+        res.sendStatus(400)
         return;
     }
-    const updatedUser = Users.updateUser(req.body.userId, req.body.displayName, req.body.birthday, req.body.location)
-    res.send(204)
+    const updatedUser = Users.updateUser(req.body.userId, req.body.displayName, req.body.birthday, req.body.location);
+    res.status(200).json({updatedUser: updatedUser})
 })
 
 

@@ -58,6 +58,7 @@ export class Login extends React.Component{
 
         this.setState(() => ({errorMsg: null}));
         await this.props.fetchAndUpdateUserInfo(userId);
+        this.props.history.push("/");
     };
 
 
@@ -70,7 +71,7 @@ export class Login extends React.Component{
 
 
         return(
-            <div>
+            <div className="loginAndsignup">
                 <div>
                     <p>User Id:</p>
                     <input type="text"

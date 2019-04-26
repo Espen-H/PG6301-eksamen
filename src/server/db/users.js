@@ -8,7 +8,7 @@ const users = new Map([
         friends: [],
         postCount: 1,
         userPosts: [{
-            user: "Foo", //temp
+            user: "Foo",
             postId: 0,
             author: "Foo",
             post: "I want snacks",
@@ -26,7 +26,7 @@ const users = new Map([
         postCount: 1,
         userPosts: [{
             user: "Bar",
-            postiD: 0,
+            postId: 1,
             author: "hunter21",
             post: "I just bought snacks",
             time: "Wed Apr 24 2019 09:12:32 GMT+0200 (sentraleuropeisk sommertid)"
@@ -43,7 +43,7 @@ const users = new Map([
         postCount: 1,
         userPosts: [{
             user: "Idtent",
-            postiD: 0,
+            postId: 0,
             author: "displayName",
             post: "Have you ever wondered if we're real or just bits in somethings memory?",
             time: "Wed Apr 24 2019 11:04:43 GMT+0200 (sentraleuropeisk sommertid)"
@@ -64,9 +64,7 @@ const users = new Map([
 
 
 function getUser(userId) {
-    if (users.get(userId) == undefined) {
-        return undefined
-    }
+
     return users.get(userId)
 }
 
@@ -84,10 +82,6 @@ function getAllUsers() {
 }
 
 function getUserPosts(user) {
-    if (user == undefined || user == null) {
-        throw ("Something went wrong trying to  get userPosts")
-    }
-
     let result = [];
     user.userPosts.forEach(post => {
         result.push({
@@ -102,11 +96,8 @@ function getUserPosts(user) {
 }
 
 function getUserPost(user, postId) {
-    if (user == getUser(user.userId)) {
-        if (user.userPosts[postId]) {
-            return user.userPost[postId]
-        }
-    }
+    const post = user.userPosts[postId]
+    return post;
 }
 
 function verifyUser(userId, password) {
@@ -169,22 +160,12 @@ function updateUser(userId, newDisplayName, newBirthday, newLocation) {
         update.displayName = newDisplayName
         update.birthday = newBirthday
         update.location = newLocation
-        return true;
     }
-
-
 }
 
 function deleteUserPost(userId, postId) {
-    if (getUser(userId) !== undefined) {
-        let user = getUser(userId)
-        if (getUserPost(user, postId !== undefined)) {
-            let post = getUserPost(user, postId)
-            post.pop(postId);
-            user.postCount--;
-            return true
-        }
-    }
+    const posts = users.get(userId).userPosts.filter(post => post.postId !== postId);
+    users.set(userId, { posts });
 }
 
 function resetAllUsers() {

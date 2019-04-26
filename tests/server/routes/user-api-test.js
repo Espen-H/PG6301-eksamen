@@ -14,44 +14,72 @@ test("Test fail login", async () => {
 
 
 test("Test create account", async () => {
-        const response = await request(app)
+    const response = await request(app)
         .post('/api/user/signup')
-        .send({userId: "Test", password: test, displayName: "test" })
+        .send({ userId: "Test", password: test, displayName: "test" })
 })
 
 test("Test login successful", async () => {
-        const response = await request(app)
+    const response = await request(app)
         .post('/api/user/login')
-        .send({userId: 'Foo', password: "bar"})
+        .send({ userId: 'Foo', password: "bar" })
         .set('Content-Type', 'application/json');
 
-        expect(response.statusCode).toBe(204);
-        })
+    expect(response.statusCode).toBe(204);
+})
 
 
-    test("Test fail access data of non-existent user", async () => {
+test("Test fail access data of non-existent user", async () => {
 
-        const response = await request(app)
-            .get('/api/user/notAUser');
+    const response = await request(app)
+        .get('/api/user/notAUser');
 
-        expect(response.statusCode).toBe(400);
-    });
+    expect(response.statusCode).toBe(400);
+});
 
-    test("Test access data of existent user", async () => {
+test("Test access data of existent user", async () => {
 
-        const response = await request(app)
-            .get('/api/user/Foo');
+    const response = await request(app)
+        .get('/api/user/Foo');
 
-        expect(response.statusCode).toBe(200);
-    })
+    expect(response.statusCode).toBe(200);
+})
+
+test("Test get all users", async () => {
+    const response = await request(app)
+        .get('/api/users');
+
+    expect(response.statusCode).toBe(200);
+})
 
 
-    test("Test userPost"), async () => {
+test("Test create userPost", async () => {
 
-        const response = await request(app)
-            .post('/api/user/userPost')
-            .send({userId: "Foo", displayName:"Test", post: "Testing", time: "1212" })
-            .set('Content-Type', 'application/json');
-            expect(response.statusCode).toBe(201);
+    const response = await request(app)
+        .post('/api/user/Foo/userpost')
+        .send({ userId: "Foo", displayName: "Test", post: "Testing", time: "1212" })
+    expect(response.statusCode).toBe(201);
 
-    }
+});
+
+test("Test get specific userpost", async () => {
+
+    const response = await request(app)
+        .get('/api/Foo/post/0')
+    expect(response.statusCode).toBe(200);
+
+})
+
+test("Test delete userPost", async () => {
+
+    const response = await request(app)
+        .delete('/api/user/Foo/post/0')
+    expect(response.statusCode).toBe(204)
+})
+
+test("Test change userInfo", async () => {
+    const response = await request(app)
+        .put('/api/user/Foo/update')
+        .send({ userId: "Foo", displayName: "New", birthday: "1", location: "2" })
+    expect(response.statusCode).toBe(200)
+})

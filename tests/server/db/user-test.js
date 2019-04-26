@@ -29,10 +29,10 @@ test("test post methods", () => {
 
 test("test delete method", () => {
     Users.createUser("Test21", "123", "name", "bday", "location");
-    let user = Users.getUser("Test21")
-    Users.createUserPost("Test21", "name", "here is the boom", Date.now())
+    expect(() => Users.getUser("Test21")).toBeDefined();
+    Users.createUserPost("Test21", "name", "here is the boom", Date.now());
     expect(() => Users.getUserPost("Test21", 0).toBeDefined());
-    expect((Users.deleteUserPost("Test21", 0).toBe(false)))
+    Users.deleteUserPost("Test21", 0);
     expect(() => Users.getUserPost("Test21", 0).toBeDefined(false));
-    expect(() => user.postCount.toBe(0));      
+    expect(() => user.postCount.toBe(0));
 })
