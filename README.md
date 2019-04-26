@@ -1,6 +1,6 @@
 # PG6301-eksamen
 
-Test coverage as of 26/04/19 07:13 is at 37.45%
+Overall Test coverage as of 26/04/19 07:13 is at 37.45%
 
 This is a really underdeveloped social media platform. I went with the same structure that was used in this course as it was familiar, and playing it safe with the timeframe in mind. Most of the time went into the REST api, so the frontend looks about as great as my face right now probably. 
 
@@ -44,3 +44,5 @@ There is a lot of stuff i didnt manage to finish. Here's a laundry list of unacc
 7.  When a message contains a URL (e.g., link to an external web page), that should be displayed as
     an actual clickable link. Pay particular attention to the security aspects of having such a
     functionality.
+    
+    
