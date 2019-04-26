@@ -67,7 +67,7 @@ function getUser(userId) {
 
     return users.get(userId)
 }
-
+// Filter out those pesky plaintext passwords!
 function getAllUsers() {
     let result = [];
     users.forEach(user => {
@@ -116,7 +116,7 @@ function createUser(userId, password, displayName, birthday, location) {
     if (getUser(userId) !== undefined) {
         return false;
     }
-    // This is a shitshow of userinputs
+    
     const user = {
         userId: userId,
         password: password,

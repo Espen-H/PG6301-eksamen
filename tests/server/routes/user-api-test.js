@@ -45,14 +45,6 @@ test("Test access data of existent user", async () => {
     expect(response.statusCode).toBe(200);
 })
 
-test("Test get all users", async () => {
-    const response = await request(app)
-        .get('/api/users');
-
-    expect(response.statusCode).toBe(200);
-})
-
-
 test("Test create userPost", async () => {
 
     const response = await request(app)
